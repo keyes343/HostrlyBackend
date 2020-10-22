@@ -1,18 +1,36 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import mongoose, {Schema, model, Model, Document} from 'mongoose';
+import cors from 'cors';
 import { error } from 'console';
 
 
 export class UserRouter {
     public router:Router;
-    User: Model<mongoose.Document, {}>;
+    public User: Model<mongoose.Document, {}>;
     
     constructor(User:Model<Document, {}>){
         this.router = express.Router();
+        // this.router.use(cors({
+        //     "origin": "*",
+        //     "methods": ["GET","HEAD","PUT","PATCH","POST","DELETE"],
+        //     "preflightContinue": false,
+        //     "optionsSuccessStatus": 204
+        // }))
+
+        // this.router.use((req:Request,res:Response,next:NextFunction)=>{
+        //     res.header('Access-Control-Allow-Origin',"*");
+        //     res.header('Access-Control-Allow-Headers',"*");
+        //     if(req.method === 'OPTIONS'){
+        //         res.header('Access-Control-Allow-Methods',"GET,PUT,POST,DELETE,PATCH");
+        //         return res.status(200).json({})
+        //     }
+        //     next();
+        // })
+        
+        this.User = User;
         this.editUser();
         this.addUser();
         this.basicgetRequests();
-        this.User = User;
     }
 
     public consoling =()=> {
@@ -104,7 +122,7 @@ export class UserRouter {
         })
     }
     public basicgetRequests = () => {
-        this.router.post('/acknowledgeUser', async(req:Request, res:Response)=>{
+        this.router.post('/acknowledgeUser', async(req:Request, res:Response,next:NextFunction)=>{
             const body = req.body;
             // confirmed variables
             const {googleId,email} = body;
@@ -116,14 +134,17 @@ export class UserRouter {
                     const user = await this.User.findOne({ googleId }).lean()
                     if(user){
                         console.log(' --- user exists ---- ')
-                        res.status(200).send(user);
+                        next()
+                        res.send(user);
                     }else{
                         this.User.create({...body},(err:any,newUser:any)=>{
                             if(newUser){
                                 console.log(' ---- new user created ---- ')
-                                res.status(201).send(newUser);
+                                next();
+                                res.send(newUser);
                             }else {
-                                res.status(405).send(err);
+                                next();
+                                res.send(err);
                             }
                             console.log(err);
                         })
