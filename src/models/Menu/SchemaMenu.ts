@@ -6,5 +6,9 @@ export const SchemaMenu = new Schema({
     googleId:{type:String,required:true,default:''},
     date:{type:Date,required:true,default:new Date()},
     dateNum:{type:Number,required:true,default:Date.now()},
-    foodItems:{type:Schema.Types.Mixed,required:true,default:{}}
+    foodItems:{type:Schema.Types.Mixed,required:true,default:{}},
+
+    userIs: {type:String,required:true,default:'Owner'},
+    foodEvent: {type:String,required:true,default:'all'},
+
 })

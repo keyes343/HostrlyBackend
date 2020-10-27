@@ -6,6 +6,8 @@ export type menu = {
     googleId:string,email:string,
     foodItems: {
         [foodItem:string]:boolean
-    }
+    },
+    userIs:string,
+    foodEvent:string,
 }
 

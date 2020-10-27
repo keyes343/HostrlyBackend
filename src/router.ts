@@ -13,7 +13,7 @@ class ExpressRouter{
     MongooseInstance: MongooseDatabase; db: any;
     // Sub-Routers
     UserRouter: Router;
-    RouterProducts: Router;
+    // RouterProducts: Router;
     RouterDate: Router;
     RouterWorkouts: Router;
     RouterMenu: Router;
@@ -30,16 +30,16 @@ class ExpressRouter{
         this.User = this.MongooseInstance.User;
         this.UserRouter = this.MongooseInstance.UserRouter // extracting the 'router' object from class
         
-        this.RouterProducts = this.MongooseInstance.RouterProducts_extractedRoutes; // extracting route
+        // this.RouterProducts = this.MongooseInstance.RouterProducts_extractedRoutes; // extracting route
         this.RouterDate = this.MongooseInstance.RouterDate_extractedRoutes;
         this.RouterWorkouts = this.MongooseInstance.RouterWorkouts_extractedRoutes;
         this.RouterMenu = this.MongooseInstance.RouterMenu_extractedRoutes;
         
 
         this.router.use('/users', this.UserRouter); // assigning path for router extension
-        this.router.use('/products', this.RouterProducts);
-        this.router.use('/custom', this.RouterDate);
-        this.router.use('/workouts', this.RouterWorkouts);
+        // this.router.use('/products', this.RouterProducts);
+        // this.router.use('/custom', this.RouterDate);
+        // this.router.use('/workouts', this.RouterWorkouts);
         this.router.use('/menu',this.RouterMenu);
         this.routes(); // invoking the Main Route
     }

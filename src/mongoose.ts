@@ -41,6 +41,8 @@ export class MongooseDatabase {
         this.SchemaWorkouts = SchemaWorkouts;
         this.SchemaMenu = SchemaMenu;
 
+        this.initializeMongoose();
+
         // USER MODEL
         this.User = model('user',this.SchemaUser); // define a model
         this.UserRouter_class = new UserRouter(this.User); // invoking the class by passing in a model
@@ -66,10 +68,11 @@ export class MongooseDatabase {
         this.RouterWorkouts = new RouterWorkouts(this.ModelWorkouts);
         this.RouterWorkouts_extractedRoutes = this.RouterWorkouts.router;
 
-        this.initializeMongoose();
+        
     }
     public initializeMongoose = async() => {
-        const uri_auth = 'mongodb+srv://hostel:jeet343@hostel.d0s8t.mongodb.net/root?retryWrites=true&w=majority';
+        const uri_auth = 'mongodb://hostel:jeet343@hostel-shard-00-00.d0s8t.mongodb.net:27017,hostel-shard-00-01.d0s8t.mongodb.net:27017,hostel-shard-00-02.d0s8t.mongodb.net:27017/root?ssl=true&replicaSet=Hostel-shard-0&authSource=admin&retryWrites=true&w=majority';
+        
         // const uri_auth = 'mongodb+srv://jeet343:jeet343@mazelix-akpyd.mongodb.net/root?retryWrites=true&w=majority';
         try {
             await this.db.connect(uri_auth, {useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false});
